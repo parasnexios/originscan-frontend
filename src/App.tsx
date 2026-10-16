@@ -43,6 +43,7 @@ interface VerificationResult {
   mfg_date?: string
   expiry_date?: string
   expired?: boolean
+  branch_name?: string
   message?: string
 }
 
@@ -426,23 +427,30 @@ export default function App() {
                 )}
               </div>
 
-              {/* Batch-level info if enabled */}
-              {(result.mfg_date || result.expiry_date) && (
+              {/* Batch & Distribution info if enabled */}
+              {(result.mfg_date || result.expiry_date || result.branch_name) && (
                 <div style={{ background: 'rgba(15, 23, 42, 0.6)', borderRadius: 14, padding: '14px 16px', marginBottom: 16 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem' }}>
-                    {result.mfg_date && (
-                      <div>
-                        <span style={{ color: '#94a3b8', fontSize: '0.75rem' }}>Mfg Date</span>
-                        <p style={{ fontWeight: 700 }}>{result.mfg_date}</p>
-                      </div>
-                    )}
-                    {result.expiry_date && (
-                      <div style={{ textAlign: 'right' }}>
-                        <span style={{ color: '#94a3b8', fontSize: '0.75rem' }}>Expiry Date</span>
-                        <p style={{ fontWeight: 700, color: result.expired ? '#f59e0b' : '#34d399' }}>{result.expiry_date}</p>
-                      </div>
-                    )}
-                  </div>
+                  {(result.mfg_date || result.expiry_date) && (
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', marginBottom: result.branch_name ? 10 : 0 }}>
+                      {result.mfg_date && (
+                        <div>
+                          <span style={{ color: '#94a3b8', fontSize: '0.75rem' }}>Mfg Date</span>
+                          <p style={{ fontWeight: 700 }}>{result.mfg_date}</p>
+                        </div>
+                      )}
+                      {result.expiry_date && (
+                        <div style={{ textAlign: 'right' }}>
+                          <span style={{ color: '#94a3b8', fontSize: '0.75rem' }}>Expiry Date</span>
+                          <p style={{ fontWeight: 700, color: result.expired ? '#f59e0b' : '#34d399' }}>{result.expiry_date}</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  {result.branch_name && (
+                    <div style={{ fontSize: '0.8rem', color: '#94a3b8', borderTop: (result.mfg_date || result.expiry_date) ? '1px solid rgba(255,255,255,0.08)' : 'none', paddingTop: (result.mfg_date || result.expiry_date) ? 8 : 0 }}>
+                      <span>Distribution Hub:</span> <strong style={{ color: '#f8fafc' }}>{result.branch_name}</strong>
+                    </div>
+                  )}
                 </div>
               )}
 

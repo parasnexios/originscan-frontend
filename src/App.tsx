@@ -86,9 +86,10 @@ export default function App() {
       const res = await fetch(`/api/public/product/${slug}`)
       if (res.ok) {
         const json = await res.json()
-        if (json.data) {
-          setProductData(json.data.product)
-          setBrandData(json.data.brand)
+        const payloadData = json.payload?.data || json.data
+        if (payloadData) {
+          setProductData(payloadData.product)
+          setBrandData(payloadData.brand)
         }
       }
     } catch (err) {
